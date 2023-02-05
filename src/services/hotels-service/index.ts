@@ -4,8 +4,22 @@ import hotelRepository from '@/repositories/hotel-repository';
 import ticketRepository from '@/repositories/ticket-repository';
 import { TicketStatus } from '@prisma/client';
 
-async function getAllHotels() {
+async function getAllHotels(userId: number) {
+  const enrollmentId = await enrollmentIdExistsOrFail(userId);
+  await ticketExistsOrFail(enrollmentId);
   return await hotelRepository.findAllHotels();
+}
+
+async function getHotelWithRooms(userId: number, hotelId: number) {
+  const enrollmentId = await enrollmentIdExistsOrFail(userId);
+  await ticketExistsOrFail(enrollmentId);
+
+  const hotel = await hotelRepository.findHotelRooms(hotelId);
+
+  if (!hotel) {
+    throw notFoundError();
+  }
+  return hotel;
 }
 
 async function enrollmentIdExistsOrFail(userId: number) {
@@ -34,6 +48,7 @@ async function ticketExistsOrFail(enrollmentId: number) {
 
 const hotelService = {
   getAllHotels,
+  getHotelWithRooms,
 };
 
 export default hotelService;
