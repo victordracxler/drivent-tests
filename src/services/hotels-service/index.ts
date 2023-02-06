@@ -2,11 +2,11 @@ import { notFoundError, paymentRequiredError } from '@/errors';
 import enrollmentRepository from '@/repositories/enrollment-repository';
 import hotelRepository from '@/repositories/hotel-repository';
 import ticketRepository from '@/repositories/ticket-repository';
-import { TicketStatus } from '@prisma/client';
+import { Hotel, TicketStatus } from '@prisma/client';
 
-async function getAllHotels(userId: number) {
-  const enrollmentId = await enrollmentIdExistsOrFail(userId);
-  await ticketExistsOrFail(enrollmentId);
+async function getAllHotels(userId: number): Promise<Hotel[]> {
+  // const enrollmentId = await enrollmentIdExistsOrFail(userId);
+  // await ticketExistsOrFail(enrollmentId);
   return await hotelRepository.findAllHotels();
 }
 
