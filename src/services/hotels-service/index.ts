@@ -5,8 +5,8 @@ import ticketRepository from '@/repositories/ticket-repository';
 import { Hotel, TicketStatus } from '@prisma/client';
 
 async function getAllHotels(userId: number): Promise<Hotel[]> {
-  // const enrollmentId = await enrollmentIdExistsOrFail(userId);
-  // await ticketExistsOrFail(enrollmentId);
+  const enrollmentId = await enrollmentIdExistsOrFail(userId);
+  await ticketExistsOrFail(enrollmentId);
   return await hotelRepository.findAllHotels();
 }
 
